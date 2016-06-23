@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body{
+			height: 2000px;
+		}
+		#go-top{
+			width: 50px;
+			height: 50px;
+			background: #ccc;
+			text-align: center;
+			line-height: 50px;
+			position: fixed;
+			right: 20px;
+			bottom: 20px;
+		}
+	</style>
+</head>
+<body>
+	<a id="go-top" href="#">Go!</a>
+	<script type="text/javascript">
+		var oGoTop = document.getElementById("go-top");
+		oGoTop.onclick = function()
+		{
+			var num = 0;
+			var timer = setInterval(function(){
+				console.log(Math.random());
+				num++;
+				if(num == 4)
+					clearInterval(timer);
+			},1000);
+			//clearInterval(timer);
+			//window.scrollTo
+			return false;//取消默认行为，不在刷新
+		}
+	</script>
+	
+</body>
+</html>
