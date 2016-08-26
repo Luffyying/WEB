@@ -1,0 +1,95 @@
+1.在js中有两种作用域：
+1）全局作用域
+2）函数作用域
+example:
+<script>
+		var x=1;
+		function fn(){
+		   console.log('x='+x);
+		   var  x = 2;
+		     console.log('x='+x);
+		}
+		console.log(x);
+		fn();
+	</script>
+1
+undefined
+x=2
+但是如果函数fn中没有x的定义，自然会行使全局变量的责任。
+2.js中没有块级作用域
+var x=1;
+{   
+      var x=2;print('x='+x);
+
+}
+print('x='+x);
+x=2;
+x=2;
+3.但是可以通过let来实现块级作用域的效果
+
+function f(){
+
+let x =1;
+print(x);
+{
+     let x =2;
+     print(x);
+
+}
+print(x);
+输出分别是
+1
+2
+1
+除了作用域这块，let与var没什么区别了
+	function fn(){
+		   for(let i=0;i<10;i++){
+
+		   }
+		   console.log(i);
+		}
+这回报错，提示未定义
+	function fn(){
+		   for(var i=0;i<10;i++){
+
+		   }
+		   console.log(i);
+		}
+输出 10
+
+let语句的具体示例：
+let (x=1){
+	print(x);
+
+}
+let变量的作用域局限于{}内
+
+4嵌套函数的作用域
+可以在内部函数中访问外部函数的作用域
+function f1(){
+
+var x =1;
+   function f2(){
+    var y =2;
+    print(y);
+    print(x);
+    }
+    function f3(){
+    print(y);
+   }
+   f2();
+   f3();
+
+}
+输出结果：1 2 error y is not defined
+
+5变量隐藏
+var n=1;//全局变量
+function f(){
+ var n=2;
+print(n);
+}
+局部变量隐藏了全局变量
+
+
+
