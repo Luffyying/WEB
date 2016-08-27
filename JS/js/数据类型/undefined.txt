@@ -1,0 +1,6 @@
+console.log(typeof undefined)//undefined
+下面总结了会出现undefined的情况
+*未初始化的变量的值
+*不存在的属性的值
+*在没有传入实参而调用函数时，该函数内响应参数的值
+*没有return 或是return语句中不含表达式的函数的返回值

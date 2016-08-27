@@ -1,0 +1,3 @@
+console.log(typeof null)//object
+null型没有与之对应的Null类
+null值的意义在于取到的值为空

@@ -1,0 +1,63 @@
+1.在JavaScript中有五中基本的数据类型
+@字符串型
+@数值型
+@布尔型
+@null型
+@undefined型
+在这五种之外都被称作是Object类型
+基本数据类型的实例----值
+Object类型的实例  ----对象
+值和对象有数据类型，变量没有数据类型，所以可以对其赋任意类型的值，也可以使其引用任意
+类型的对象，故称为动态数据类型语言。但是从概念上，还是可以分为基本数据类型变量和引用
+型变量。
+
+2字符串型
+字符串型是不可变类型，除了内建类型的字符串，还有一个字符串类String ,二者差别不大。
+String类包含它的函数及构造函数。
+var s ='123';
+var s2 = s;
+s+='345;
+console.log(s2);//123
+(字符串对象和字符串值都是不可变得)
+
+字符串值和字符串对象之间可以进行隐式类型的转换
+var obj1 = new String('abc');
+var obj2 = new String('abc');
+console.log(obj1 === obj2);//false
+console.log(obj1 == obj2);//false
+but...
+console.log(obj1 + '' ===obj2 + '');//true
+
+and ..
+var obj = new String('aaa');
+var s = 'aaa';
+console.log(obj == s);//true  
+console.log(obj === s);//false  
+console.log(typeof obj);object  字符串对象
+console.log(typeof s); string  字符串值
+
+in order to avoid the chaos ,we can use the function of the string like this
+var s = String('111');
+typeof s//string
+这时候就要说到之前交代的String类的两个功能，函数和构造函数，
+使用new的方法只是调用了它的构造函数而已
+
+
+3.===   and  ==
+二者的区别就是前者是严格相等，不会对数据类型进行转换
+
+4.对String.prototype对象所具有的属性进行总结（常用的）
+charAt(pos):返回下标pos位置字符的长度为1的字符串值，如果超界，返回空字符串
+charCodeAt(pos):返回下标pos位置字符的字符编码，如果超界，返回NaN
+concat([string0,string1,..]):返回和参数字符串相连接后的新的字符串
+constructor:引用一个创建string类对象的函数 
+console.log(s.constructor); //function String(){}
+indexOf(searchstring[,pos]):返回在字符串中第一个遇到的字符串searchstring的下标值，
+可以通过第二个参数指定搜索位置，没有找到返回-1
+match(regexp):返回匹配的一个或者多个正则表达式的匹配结果
+substring(3,5) ：用于提取字符串中介于两个指定下标之间的字符，算前一个参数，不算后一个的
+且不支持负数
+substr(start,length):可在字符串中抽取从 start 下标开始的指定数目的字符
+replace(regexp/substr,replacement):用于在字符串中用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串
+slice(start,end):可提取字符串的某个部分，并以新的字符串返回被提取的部分
+split(separator[,howmany]):用于把一个字符串分割成字符串数组,后一个参数可选，可指定返回的数组的最大长度

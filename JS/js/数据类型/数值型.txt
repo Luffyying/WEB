@@ -1,0 +1,13 @@
+1.和字符串类相似，js中也存在数值类 -->Number类
+var n = Number('x');
+console.log(n);//NaN        not a number
+console.log(typeof n);//number
+var n = new Number('x');
+console.log(n);//NaN       
+console.log(typeof n);//object
+
+2.对于NaN
+对于它进行任何运算，其结果都是NaN，它不和其他任何数值相等，就算是两个NaN进行等值
+判断，其结果也为假
+
+
