@@ -1,0 +1,128 @@
+1.在js中innerHTML,outHTML,innerText区别
+innerHTML：这个是w3c标准的属性，能够读取或者设置元素的内容，直接改变DOM内容，
+它可以以多种形式出现：
+a.innerHTML = '<h4 class=\'s\'><span>lala</span></h4>';
+a.innerHTML = ha();
+a.innerHTML = ‘hello’
+但是它在IE9及以前的版本兼容性不好，innerHTML在IE6-9中动态给table添加内容会直接报错，
+这是因为col, colGroup, frameSet, html, head, style, table, tBody, tFoot, tHead,
+ title, and tr objects中的innerHTML只能读取，可以通过append来修改内容
+
+innerText：获取设置匹配元素内的文本内容，但是不能通过添加标签加到DOM属性中，
+只是单纯的文本，这个不是w3c标准的属性，可能会有浏览器兼容性问题
+（当有兼容性问题时，解决办法是用textContent来替代，这个类型是string型，它
+可以兼容当下浏览器）
+
+outHTML:获取设置匹配元素内的文本内容,存在兼容性问题
+
+
+2.jQuery  html(),text(),val()区别
+html() 用来设置和获取文档内容，包含标签，设置属性时，选中匹配的全部，而获取时，
+只获取匹配到的第一个。
+
+text() 取得所有匹配元素的内容,结果是由所有匹配元素包含的文本内容组合起来的文本
+返回类型是string.
+text(val):设置所有匹配元素的文本内容,但是设置的标签不识别，一律当做文本处理。
+
+val();获得第一个匹配元素的当前值,一般是获取列表框所选中的全部选项的值
+val(val):设置每一个匹配元素的值
+
+
+3.xml and html 区别
+xml的标签是自定义的，用来描述数据结构，逐渐被json取代，而html主要展示DOM结构的
+
+
+4.jquery中 获取属性 attr and prop的区别
+attr是DOM属性
+prop是对象属性
+IE中直接加属性，如，odiv.aa ='bb' 可以存在DOM结构中(dom属性) ，
+但是对于标准的浏览器只能存在内存中（对象属性）
+两种属性的使用场景：dom属性，在页面一加载的时候需要用到，
+而对象属性是要等DOM加载完之后，可以用js实现。
+可以使用getAttribute()   setAttribute(‘aa’ ,'bb');这两个方法对于所有浏览器都适用
+var oattr = document.createAttribute('aa');//创建节点对象
+oattr.nodevalue = 'bb';//设置节点的值
+odiv.setAttributenode(oattr);
+
+
+5.getElementsByClassName() 在 Internet Explorer 5,6,7,8 中无效。
+
+
+6.odiv.style.width 可以设置属性，但是只能获取内联样式的属性，或是上文中有刚刚通过
+style设置好的属性，还要注意，属性值的设置，内联》内部》外部》通过class设置的
+在内部中，ID》class
+
+
+7.原生js中，添加节点和删除节点
+添加节点，首先createElement()->createTextNode()->para.appendChild(node);
+删除节点，首先要找到他的父元素parent.removeChild(child);
+
+8.typeof array->object 
+可以采用instannceof or constructo
+
+9./**  
+   @elem
+ */文档注释
+
+10.<label for="male">Male</label>
+  <input type="radio" name="sex" id="male" />
+当点击label的时候，input也获得焦点
+
+11.字符串中如果有\,则加上转义
+var reg = /[a-z]/ig 不能接受变量
+var reg = new RegExp('a-z',ig);i:可以忽略大小写，可以接受变量
+
+12.事件代理（委托）
+定义：将子元素的事件委托给父元素
+实现的原理：通过事件冒泡向上传播
+用于两种场景：（1）解决后生成元素事件的绑定问题
+              （2）子元素过多的事件绑定问题
+（1）例子
+<button id='btn'>add</button>
+<ul id='ul1'>
+	<li>item 1 </li>
+	<li>item 2 </li>
+	<li>item 3 </li>
+</ul>
+	var obt = document.getElementById('btn');
+    var oul = document.getElementById('ul1');
+    var ali = oul.getElementsByTagName('LI');
+    for(var i=0;i<ali.length;i++){
+    	ali[i].onclick = function(){
+    		alert(this.innerHTML);
+    	}
+    }
+    var fn = function(){
+    	alert(this.innerHTML);
+    }
+    obt.onclick = function(){
+    	var oli = document.createElement('LI');
+    	oli.innerHTML = Math.random();
+    	oli.onclick = fn;
+    	oul.appendChild(oli);
+    }
+可以通过oli.onclick = fn;来补充后生成元素的点击事件，但是我们还有一个更好的办法，就是
+委托给父元素，代码改成这个样子
+ oul.onclick = function(e){
+    	if(e.target.tagName == 'LI'){
+    		 alert(e.target.innerHTML);
+    	}
+    }
+    obt.onclick = function(){
+    	var oli = document.createElement('LI');
+    	oli.innerHTML = Math.random();
+    	oul.appendChild(oli);
+    }
+通过给父元素绑定单击事件，利用事件源找到li。
+事件源：触发此事件的元素，e.target IE不支持
+
+13.document.documentElement 返回的结果就是根元素html
+self指的是window
+
+14js中有哪几种对象
+DOM 内置 自定义
+
+15. name = { 'for': 'htmlFor', 'class': 'className' }[name] || name;
+这是一个技巧，还有这个
+content = content || document(这样就不用ifelse)
+还有经常使用e = e|| window.event

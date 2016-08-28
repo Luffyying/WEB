@@ -1,0 +1,82 @@
+1.变量和引用
+在JavaScript中，
+var a ={ x:1,y:2};//将这个对象的引用赋值给a
+var b =a;//将a的值赋值给b
+a={ x:2,y:6}//使其引用另一个对象
+console.log(b.x)//1
+
+2.this引用的注意点
+var obj ={ x:4,
+	 doit:function(){console.log(this.x);}
+	};
+obj.doit();//4
+var fn =obj.doit;//将obj.doit引用的Function对象赋值给全局变量
+fn();//undefined
+var x=6;
+fn();//6 this引用了全局对象
+var obj2 ={x:7,doit2:fn};
+obj2.doit2();//7
+
+3.applay and call
+作用：通过它们调用的函数的this引用，可以指向任意特定的对象，比如：
+function f(){
+	console.log(this.x);
+}
+var obj = {x:4};
+f.apply(obj);//4
+f.call(obj);//4
+
+the difference between the two
+function f(a,b){
+	console.log('this.x='+this.x+',a='+a+',b='+b);
+}
+f.apply({x:6},[1,2]);//this.x=6,a=1,b=2
+
+f.call({x:9},1,2); // this.x=9,a=1,b=2
+只是第二个参数的形式不同，apply是以数组的形式出现，而call是直接按着原样传递形参
+this引用只是引用第一参数传递的对象而已。当然如果是多个，尽可以写在一个对象中啦。
+
+4.原型继承
+原型继承形式上的理解：
+function MyClass(x,y){
+    this.x = x;
+    this.y = y;
+}
+MyClass.prototype.show = function(){
+	console.log(this.x,this.y);
+}
+方法show不是类的直接属性，但也可以被调用，它是从另一个对象（MyClass.prototype）的属性继承而来的，
+原型链的基本原理：
+在读取某个对象的属性时，将首先查找自身的属性，如果没有找到，则会进一步向上查找，该对象的
+prototype对象的属性，如果本对象的属性存在，则对该属性的写入和删除与原型链无关。
+function My(){
+	this.x = 'x in this';
+}
+My.prototype.y = 'y in this';
+var s =new My();
+var k =new My();
+console.log(s.x);//x in this
+console.log(s.y);//y in this
+s.y ='haha';
+console.log(s.y);//haha
+console.log(My.prototype.y);//y in this
+console.log(k.y);//y in this
+
+下面介绍下类似基类和派生类的实现
+function Derived(){};
+function Base(){};
+Derived.prototype =new Base();
+
+but...
+var obj =new Derived();
+obj.constructor;//function Base(){};
+因为obj.constructor相连接的实体是Derived.prototype.constructor(Base()),
+所以通过这样设置：Derived.prototype.constructor = Derived;
+obj.constructor;//function Derived(){};
+
+but...
+a instanceof b用来判断a是否属于b的类型，可以利用它实现搜索原型链
+Derived.prototype.isPrototypedOf(obj);
+Base.prototype.isPrototypedOf(obj);
+Object.prototype.isPrototypedOf(obj);
+
