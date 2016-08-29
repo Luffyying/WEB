@@ -1,0 +1,65 @@
+1.对于闭包的初步认识
+function f(){
+   var n =0;
+   return function(){ return ++n;}
+
+}
+var fn = f();
+fn()//1
+fn()//2
+fn()//3
+
+2.闭包的原理
+闭包的前提条件是在一个函数中存在另一个函数
+function f(arg){
+   var n=123+Number(arg);
+   function g(){
+      console.log(n);
+   }
+   return g;
+}
+var g2 = f(2);
+var g3= f(3);
+g2()//125
+g3()//126
+惯用写法：
+function f(arg){
+  var n=123+Number(arg);
+  return function(){
+          console.log(n);
+    }
+}
+
+3.闭包需要注意的地方：
+function f(elem){
+          var n = 123 + Number(elem);
+          function g(){
+          	console.log(n);
+          }
+          function c(){
+          	console.log(n);
+          }
+          return [g,c];
+		}
+		var arr = f(1);
+		arr[0]();//124
+		arr[1]();//124
+
+4.防范命名空间的污染
+(1)通过使用模块，但是在最原始的js中，只能通过引用不同文件，无模块
+(2)减少全局变量和函数的使用
+方法是封入对象字面量中
+var b ={
+   sum:function(){},
+   position:{x:6}
+}
+b.sum();
+or...
+var a = {};
+a.sum= function(){};
+a.position = {x:5};
+(3)通过闭包实现信息隐藏
+var sum = (function(){ 函数体 })();
+调用的时候  sum() or sum.xx
+
+    
