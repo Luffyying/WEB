@@ -1,0 +1,115 @@
+因为浮动框不在普通的文档流中，所以它不占据空间。如下面的代码：
+
+.news {
+
+　background-color:gray;
+
+　border:1px solid black;
+
+}
+
+.news img {
+
+　float:left;
+
+}
+
+.news p {
+
+　float:right;
+
+}
+
+<div class="news">
+
+　<img src="/img/news-pic.jgp" alt="my pic" />
+
+　<p>Some text</p>
+
+</div>
+
+但是因为浮动元素脱离了文档流，所以包围图片和文本的div不占据空间。如何让包围元素在视觉上包围浮动元素呢？需要在这儿元素的某个地方应用clear。可惜这个事例中没有元素可以清理，所以需在在最后一个段落下面添加一个空元素并清理它。
+
+即添加：
+
+.clear {clear:both}
+
+<div class="news">
+
+　...
+
+　<br class="clear" />
+
+</div>
+
+
+
+这就是清理浮动的第一种方式，但是这个方式添加了添加了无意义的标记。
+
+第二种方式是不对浮动的文本和图像进行清理，而是选择浮动容器div：
+
+.news {
+
+　background-color:gray;
+
+　border:solid 1px black;
+
+　float:left;
+
+}
+
+...
+
+但是与div同级的元素会受到影响。
+
+第三种方式是利用overflow属性。应用值为hidden或auto的overflow属性有一个有用的副作用，这会自动清理包含的任何浮动元素：
+
+.news {
+
+　background-color:gray;
+
+　border:solid 1px black;
+
+　overflow:hidden;
+
+}
+
+...
+
+第四种方式，结合使用:after伪类和内容声明在指定的现有内容的末尾添加新的内容：
+
+.clear:after {
+
+　content:".";
+
+　height:0;
+
+　visibility:hidden;
+
+　display:block;
+
+　clear:both;
+
+}
+
+<div class="news clear">
+
+　...
+
+</div>
+
+这个方法在大多数现代浏览器中都是有效的，淘宝首页也用了这种方式来清除浮动，但是在IE6和更低版本中不起作用。
+
+IE6下需要以下hack：
+
+.clear {
+
+　display:inline-block;
+
+}
+
+* html .clear {height:1%;}
+
+.clear {display:block;}
+
+clear:both的作用就是清除两旁浮动对象的浮动

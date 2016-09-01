@@ -1,0 +1,78 @@
+Regular Expression
+正则表达式功能：字符串匹配
+1.创建一个正则表达式：
+第一种方法：var reg = /pattern/ pattern不能是变量
+第二种方法：var re = new RegExp('');
+3.reg.test(str)返回true or false;
+reg.exec(str)  返回数组["ccc", index: 0, input: "ccccabisddas"]
+2.匹配的方法（为了防止出现歧义加上（），只要匹配到一个就返回，
+尽量多匹配，如下的c可以是
+单个字符，也可以是一个字符串）
+c{n}匹配连续的n个字符c
+c{m,n}匹配连续的m个或者n个c或者m,n之间的,m<=个数<=n
+c{n,}匹配连续的大于等于n个的。
+c*  =c{0,}0个或者多个
+c+  =c{1,}1个或者多个
+c?  =c{0,1}
+{n,}?,*?,+?,??,{m,n}? 解决了贪心模式，尽量少匹配(c{n}?自然是无变化)
+^c 匹配以c开头的
+c$ 匹配以c结尾
+.  匹配除了换行\n之外的所有字符（一个点匹配一个）
+.+ 匹配所有的（   reg =/\.+/;str = 'www.com';匹配str中的.）
+/^./ 匹配只要第一个字符不是换行\n就可以
+ reg = /c./;str = '\.\nwww.com'; 匹配的是co
+    
+| 或者的关系
+[abc] 匹配a或者b或者c中的任意一个字符，如
+reg = /^[abc]/ 匹配以a开头或者以b开头或者以c开头
+[a-z],[A-Z],[0-9]
+reg = /^[a-zA-Z][a-zA-Z0-9_]+/
+[^abc] 匹配不能是a不能是b不能是c中的任意一个字符
+\b表示边界的意思，（或者靠最左或者靠最右，或者两边有空白）
+/\bc/表示以c为左边界的
+/c\b/表示以c为右边界的
+/\bc\b/表示既是左边界又是右边界 如：
+ reg = /\bk/;
+ str = '老师k';
+这样也能输出来，因为对于中文失效
+ str = 'sdf kdf';算左边界
+ str = 'sdfk df';算右边界
+（注意，在字符串中如果出现\则要加一个\，进行转义）
+\B 匹配非边界的
+\d 匹配的是一个数字
+\D 匹配的是非数字
+\s 匹配的空白字符（''  \t \n \r  ）
+\S 匹配的是非空白
+如：
+reg = /\s.+/;str='this is a dog';reg.exec(str)->'is a dog'
+\w 匹配单词字符，等同于[a-zA-Z0-9]
+/\w{2}/ 匹配的是连续的两个字符，可以不一样
+反向引用
+ reg ='abssdf';  /(\w)/.exec(reg)  返回的是数组['a','a']
+也就是说，该数组的第一个字串是返回的总的，后面的
+为每一个字串是子表达式。
+re = /(\w)(\w)\1\2/;匹配的形式是xyxy
+re = /(\w)(\w)\2\1/;匹配的形式是xyxy
+
+string中的replace函数也有匹配功能
+document.write(str.replace(/Microsoft/g, "W3School"))
+name = 'aaa bbb ccc';
+uw=name.replace(/\b\w+\b/g, function(word){
+  return word.substring(0,1).toUpperCase()+word.substring(1);}
+  );
+结果为：Aaa Bbb Ccc
+name = "Doe, John";
+name.replace(/(\w+)\s*, \s*(\w+)/, "$2 $1");
+结果为：John Doe
+
+还有match 用法：
+str.match(reg)//返回的是匹配的数组
+var str="1 plus 2 equal 3"
+document.write(str.match(/\d+/g))
+['1','2','3']
+
+匹配元字符：
+/c*/ 0个或者多个
+/c\*/返回匹配的字符串c*
+
+应用：注册时候的信息判断
